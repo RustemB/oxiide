@@ -4,11 +4,13 @@ fn main() -> oxiide::Result {
     Simple::run()?;
 }
 
+/// Model of WM itself
 struct Simple {
     ws: Vec<AWorkspace>,
     cws: usize,
 }
 
+/// Model of Workspace
 struct AWorkspace {
     name: String,
     idx: usize,
@@ -24,6 +26,7 @@ impl WindowsManager for Simple {
     type Message = Message;
     type Workspace = AWorkspace;
 
+    /// Initial state of WM
     fn new() -> Self {
         Self {
             ws: AWorkspace::from_strings(vec!["one".to_string(), "two".to_string()]),
@@ -31,6 +34,7 @@ impl WindowsManager for Simple {
         }
     }
 
+    /// Communicate with WM, Workspace, Windows, by handling messages
     fn events(&mut self, msg: Message) {
         match msg {
             Spawn(cmd) => Execute::spawn(cmd),
@@ -38,6 +42,7 @@ impl WindowsManager for Simple {
         }
     }
 
+    /// Returns vector of key bindings for communicate with WM
     fn keybindings(&self) -> Vec<KeyBind<Message>> {
         vec![
             KeyBind::new(&[Keys::Mod4], Keys::Return, Spawn("alacritty")),
