@@ -1,4 +1,4 @@
-use oxiide::{Execute, KeyBind, Keys, Layout, WindowsManager, Workspace};
+use oxiide::{Color, Execute, KeyBind, Keys, Layout, Window, WindowsManager, Workspace};
 
 fn main() -> oxiide::Result {
     Simple::run()?;
@@ -15,11 +15,20 @@ struct AWorkspace {
     name: String,
     idx: usize,
     layout: Layout,
+    windows: Vec<AWindow>,
+}
+
+/// Model of Window
+struct AWindow {
+    border_width: usize,
+    focused_border_color: Color,
+    normal_border_color: Color,
 }
 
 enum Message {
     Spawn(String),
     SwitchWorkspace(usize),
+    Exit,
 }
 
 impl WindowsManager for Simple {
@@ -39,6 +48,7 @@ impl WindowsManager for Simple {
         match msg {
             Spawn(cmd) => Execute::spawn(cmd),
             SwitchWorkspace(idx) => self.cws = idx,
+            Exit => self.exit(),
         }
     }
 
@@ -46,6 +56,7 @@ impl WindowsManager for Simple {
     fn keybindings(&self) -> Vec<KeyBind<Message>> {
         vec![
             KeyBind::new(&[Keys::Mod4], Keys::Return, Spawn("alacritty")),
+            KeyBind::new(&[Keys::Mod4, Keys::Alt], Keys::Escape, Exit)
             KeyBind::map(
                 &[Keys::Shift],
                 0..(self.ws.len()),
