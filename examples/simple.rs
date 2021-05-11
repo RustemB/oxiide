@@ -1,4 +1,4 @@
-use oxiide::{Color, Execute, KeyBind, Keys, Layout, Window, WindowsManager, Workspace};
+use oxiide::{Color, Execute, KeyBind, Keys, Layout, Window, WindowManager, Workspace};
 
 fn main() -> oxiide::Result {
     Simple::run()?;
@@ -31,7 +31,7 @@ enum Message {
     Exit,
 }
 
-impl WindowsManager for Simple {
+impl WindowManager for Simple {
     type Message = Message;
     type Workspace = AWorkspace;
 
