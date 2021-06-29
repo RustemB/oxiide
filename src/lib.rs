@@ -1,7 +1,7 @@
-pub mod result;
 pub mod error;
-pub mod windowmanager;
 pub mod keybind;
+pub mod result;
+pub mod windowmanager;
 
 #[cfg(test)]
 mod tests {

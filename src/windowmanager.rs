@@ -1,5 +1,5 @@
-use crate::result;
 use crate::keybind;
+use crate::result;
 
 pub trait WindowManager {
     type Message;

@@ -55,14 +55,10 @@ impl WindowManager for Simple {
     /// Returns vector of key bindings for communicate with WM
     fn keybindings(&self) -> Vec<KeyBind<Message>> {
         vec![
-            KeyBind::new(&[Keys::Mod4], Keys::Return, Spawn("alacritty")),
-            KeyBind::new(&[Keys::Mod4, Keys::Alt], Keys::Escape, Exit)
-            KeyBind::map(
-                &[Keys::Shift],
-                0..(self.ws.len()),
-                Message::SwitchWorkspace,
-            ),
-        ]
+            Key::Mod(Key::Return).bind(Message::Spawn("alacritty")),
+            Key::Mod(Key::Alt(Key::Escape)).bind(Message::Exit),
+        ] + (0..self.ws.len())
+            .map(|idx| Key::Mod(Key::NumLine(idx)).bind(Message::SwitchWorkspace(idx)))
     }
 }
 
